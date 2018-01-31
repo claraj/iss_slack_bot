@@ -1,0 +1,23 @@
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /
+  script: main.app
+
+- url: /enqueue_next_pass_time
+  script: iss_worker.app
+  # login: admin
+
+- url: /post_to_slack
+  script: iss_worker.app
+  login: admin
+
+- url: /iss_is_above_right_now
+  script: iss_worker.app
+  login: admin
+
+libraries:
+- name: flask
+  version: "0.12"
