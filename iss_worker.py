@@ -13,7 +13,7 @@ import logging
 
 import app_factory
 
-app = app_factory.factory() 
+app = app_factory.factory()
 
 
 @app.route('/enqueue_next_pass_time', methods=['POST'])
@@ -81,22 +81,9 @@ def request_and_enqueue_next_pass():
 
     next_future_pass = [ p for p in next_passes if in_future(p['risetime'], config.min_time_in_future) ]
 
-    if not next_future_pass:
-        logging.warning('No future pass times found')
 
-        # Enqueue a task to check again in an hour
-        delay = config.iss_api_retry_delay_minutes
+    if next_future_pass:
 
-        task = taskqueue.add(
-            url = '/enqueue_next_pass_time',
-            target = 'iss_worker',
-            eta = datetime.today() + timedelta(minutes=delay)
-        )
-
-        return 'Can\'t find next ISS pass time. Will try again in %d minutes' % delay
-
-
-    else:
         next_time = next_passes[0]['risetime']
         seconds = next_passes[0]['duration']
         eta = datetime.fromtimestamp(next_time)
@@ -105,16 +92,37 @@ def request_and_enqueue_next_pass():
 
         task_name = 'iss_post_' + str(next_time)
 
-        # try:
-        task = taskqueue.add(
-            url = '/iss_is_above_right_now',
-            # name = task_name,   # Unique name prevents re-adding of same task
-            target = 'iss_worker',
-            eta = eta,
-            params = {'message': message, 'risetime': next_time}
-        )
+        logging.info('About to enqueue new pass time of ' + next_time + " of " seconds + "seconds with ETA " + eta )
 
-        return 'Next pass time ' + str(eta) + ' enqueued'
+        try:
+            task = taskqueue.add(
+                url = '/iss_is_above_right_now',
+                # name = task_name,   # Unique name prevents re-adding of same task
+                target = 'iss_worker',
+                eta = eta,
+                params = {'message': message, 'risetime': next_time}
+            )
 
-        # except Exception as e:
-        # logging.error('Error adding next ISS-Is-Above task because ' + str(e))
+            logging.info('Next pass time identified and enqueued')
+
+            return 'Next pass time ' + str(eta) + ' enqueued'
+
+        except Exception as e:
+            logging.error('Error adding next ISS-Is-Above task because ' + str(e))
+
+    if not next_future_pass:
+        logging.warning('No future pass times found')
+
+    # Enqueue a task to check again in an hour
+    delay = config.iss_api_retry_delay_minutes
+
+    delay_msg = 'Can\'t find or enqueue next ISS pass time. Will try again in %d minutes' % delay
+    logging.info(delay_msg)
+    
+    task = taskqueue.add(
+        url = '/enqueue_next_pass_time',
+        target = 'iss_worker',
+        eta = datetime.today() + timedelta(minutes=delay)
+    )
+
+    return delay_msg

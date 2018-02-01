@@ -4,6 +4,7 @@ from utils import in_future
 from datetime import datetime, timedelta
 import time
 
+# Testing functions unrelated to GAE features
 
 class TestInFuture(TestCase):
 

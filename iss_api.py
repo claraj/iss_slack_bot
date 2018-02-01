@@ -2,13 +2,14 @@ import urllib
 import urllib2
 import logging
 import json
+import config
 
 def get_next_pass(lat, lon, passes):
 
-    location = {'lat': lat, 'lon': lon, 'n' : passes}
+    location = {'lat': lat, 'lon': lon, 'n': passes}
     data = urllib.urlencode(location)
 
-    url = 'http://api.open-notify.org/iss-pass.json'
+    url = config.iss_api_endpoint_url
 
     full_url = url + '?' + data
 
@@ -22,10 +23,11 @@ def get_next_pass(lat, lon, passes):
         return res_json['response']
 
     except Exception as e:
-        logging.error('Error connecting to open-notify because ' + str(e))
+        logging.error('Error connecting to Open-Notify ISS API because ' + str(e))
 
 
 
 if __name__ == '__main__':
+    # Used for testing this module at the command line
     passes = get_next_pass(45, -93, 2)
     print(passes)

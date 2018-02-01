@@ -13,3 +13,5 @@ slack_message_text = 'Look up! The ISS will be above ' + location + ' for %d sec
 
 # If ISS API returns no results, wait this many minutes before trying again
 iss_api_retry_delay_minutes = 60
+
+iss_api_endpoint_url = 'http://api.open-notify.org/iss-pass.json'
