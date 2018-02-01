@@ -13,12 +13,12 @@ import logging
 
 import app_factory
 
-app = app_factory.factory() #Flask(__name__)
+app = app_factory.factory() 
 
 
 @app.route('/enqueue_next_pass_time', methods=['POST'])
 def get_next_pass_info_and_enqueue():
-    request_and_enqueue_next_pass()
+    return request_and_enqueue_next_pass()
 
 
 @app.route('/post_to_slack', methods=['POST'])
