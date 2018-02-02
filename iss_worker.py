@@ -69,8 +69,6 @@ def request_and_enqueue_next_pass():
     Make request, get next pass time
     enqueue task at that pass time
     - this task, when run 1. posts to slack 2. sets up next task
-
-
     '''
 
     logging.info('about to request set of next pass times')
@@ -92,23 +90,23 @@ def request_and_enqueue_next_pass():
 
         task_name = 'iss_post_' + str(next_time)
 
-        logging.info('About to enqueue new pass time of ' + next_time + " of " seconds + "seconds with ETA " + eta )
+        logging.info('About to enqueue new pass time at %f, of %s seconds, with ETA of %s' % (next_time, seconds, eta) )
 
-        try:
-            task = taskqueue.add(
-                url = '/iss_is_above_right_now',
-                # name = task_name,   # Unique name prevents re-adding of same task
-                target = 'iss_worker',
-                eta = eta,
-                params = {'message': message, 'risetime': next_time}
-            )
+        # try:
+        task = taskqueue.add(
+            url = '/iss_is_above_right_now',
+            # name = task_name,   # Unique name prevents re-adding of same task
+            target = 'iss_worker',
+            eta = eta,
+            params = {'message': message, 'risetime': next_time}
+        )
 
-            logging.info('Next pass time identified and enqueued')
+        logging.info('Next pass time identified and enqueued')
 
-            return 'Next pass time ' + str(eta) + ' enqueued'
+        return 'Next pass time ' + str(eta) + ' enqueued'
 
-        except Exception as e:
-            logging.error('Error adding next ISS-Is-Above task because ' + str(e))
+        # except Exception as e:
+        #     logging.error('Error adding next ISS-Is-Above task because ' + str(e))
 
     if not next_future_pass:
         logging.warning('No future pass times found')
@@ -118,7 +116,7 @@ def request_and_enqueue_next_pass():
 
     delay_msg = 'Can\'t find or enqueue next ISS pass time. Will try again in %d minutes' % delay
     logging.info(delay_msg)
-    
+
     task = taskqueue.add(
         url = '/enqueue_next_pass_time',
         target = 'iss_worker',

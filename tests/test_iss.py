@@ -10,9 +10,9 @@ from logging import Logger
 logging.getLogger().setLevel(logging.DEBUG)
 # Connect to mock ISS API and verify expected results are returned
 # Works with iss_api.py
+# Requires mock ISS api, e.g. using json-server
 
 class TestMockISSAPICall(TestCase):
-
 
     mock_api_url = 'http://127.0.0.1:3000/iss-pass.json'
 
@@ -31,9 +31,7 @@ class TestMockISSAPICall(TestCase):
           ]
 
         res = iss_api.get_next_pass(1, 2, 3)
-        print(res)
         self.assertEqual(expected, res)
-
 
 
     def fetch_with_errors(self):

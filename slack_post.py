@@ -7,7 +7,7 @@ import os
 
 from datetime import datetime, tzinfo
 
-import secrets
+import config
 
 
 def message_slack(msg):
@@ -17,7 +17,7 @@ def message_slack(msg):
         --data '{"text":"Hello, World!"}' https://hooks.slack.com/services/NUMBERS/MORENUMBERS/ETC
     '''
 
-    webhook_url = secrets.SLACK_ISS_WEBHOOK_URL
+    webhook_url = config.SLACK_ISS_WEBHOOK_URL
 
     post_data = { "text": msg }
 
@@ -29,8 +29,11 @@ def message_slack(msg):
 
     try:
         request = urllib2.Request(webhook_url, data, headers)
-        response = urllib2.urlopen(request).read()
-        logging.info('Messaged slack with the following message: ' + msg + ' and recieved this response: ' + response)
+        response = urllib2.urlopen(request)
+        response_text = response.read()
+        status_code = response.getcode()
+        logging.info('Messaged slack with the following message: %s and recieved this response: %d %s' % (msg, status_code, response_text))
+        return response_text, status_code
 
     except urllib2.URLError as e:
         logging.error('Failed to post message to slack because of ' + e.reason)

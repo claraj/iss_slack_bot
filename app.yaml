@@ -8,7 +8,7 @@ handlers:
 
 - url: /enqueue_next_pass_time
   script: iss_worker.app
-  # login: admin
+  login: admin
 
 - url: /post_to_slack
   script: iss_worker.app
