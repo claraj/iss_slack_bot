@@ -19,5 +19,6 @@ class TestMockSlackPost(TestCase):
 
     def test_slack_post(self):
 
+        # Assert an OK response was received.
         response, status_code = slack_post.message_slack('Testing!')
         assert 200 <= status_code <= 299
