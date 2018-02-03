@@ -1,4 +1,4 @@
-import iss_worker
+import passtimes_worker
 import logging
 
 import app_factory
@@ -6,9 +6,8 @@ import app_factory
 app = app_factory.factory() #Flask(__name__)
 
 
-
 logging.info('Calling initial request for fetch and enqueue next pass')
-iss_worker.request_and_enqueue_next_pass()
+passtimes_worker.request_and_enqueue_next_pass()
 
 
 @app.route('/')

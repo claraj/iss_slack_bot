@@ -1,9 +1,12 @@
 total_storage_limit: 200K
 queue:
-- name: default
-  target: iss-worker.app
+- name: slack
   rate: 1/s
-  max_concurrent_requests: 1
   retry_parameters:
     task_retry_limit: 1
-    min_backoff_seconds: 10
+
+- name: passtimes
+  rate: 1/s
+  retry_parameters:
+    # Wait one hour between retries after failure, for example, ISS API or Slack are down
+    min_backoff_seconds: 3600

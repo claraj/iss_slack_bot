@@ -7,13 +7,22 @@ handlers:
   script: main.app
 
 - url: /post_to_slack
-  script: iss_worker.app
+  script: slack_worker.app
   login: admin
 
-- url: /iss_is_above_right_now
-  script: iss_worker.app
+- url: /enqueue_next_pass_time
+  script: passtimes_worker.app
   login: admin
+
 
 libraries:
 - name: flask
   version: "0.12"
+
+skip_files:
+- ^(.*/)?#.*#$
+- ^(.*/)?.*~$
+- ^(.*/)?.*\.py[co]$
+- ^(.*/)?.*/RCS/.*$
+- ^(.*/)?\..*$
+- enviroments/

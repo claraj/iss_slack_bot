@@ -12,8 +12,6 @@ class TestInFuture(TestCase):
         self.now = datetime.today()
         self.add_ten_seconds = timedelta(seconds = 10)
         self.add_fourty_seconds = timedelta(seconds = 40)
-        # self.subtract_ten_seconds = timedelta(seconds = -10)
-        # self.subtract_fourty_seconds = timedelta(seconds = -40)
 
 
     def test_in_future(self):

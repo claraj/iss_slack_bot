@@ -48,3 +48,5 @@ Finish tests
 Better way to start application.
 Verify post routes are not answering to any outside calls
 Redirect all routes to home page
+
+Think about how to deal with retries. 
