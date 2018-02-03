@@ -1,5 +1,5 @@
 from google.appengine.api import taskqueue
-from google.appengine.api.taskqueue import DuplicateTaskNameError, TombstonedTaskError
+from google.appengine.api.taskqueue import DuplicateTaskNameError, TombstonedTaskError, TaskAlreadyExistsError
 
 import logging
 from datetime import datetime
@@ -62,10 +62,8 @@ def request_and_enqueue_next_pass():
                 params = {'message': message, 'risetime': next_time}
             )
 
-        except DuplicateTaskNameError as e:
-            logging.warning('Task with name ' + name + ' already exists in slack notification queue.')
-        except TombstonedTaskError as e:
-            logging.warning('Task with name ' + name + ' was added to the queue in the past.')
+        except (DuplicateTaskNameError, TaskAlreadyExistsError, TombstonedTaskError) as e:
+            logging.warning('Task with name ' + name + ' already exists (or has existed) in slack notification queue. ' + str(e))
 
 
         # And add a task to do this again, at the same time as the slack post task
