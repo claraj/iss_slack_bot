@@ -1,3 +1,4 @@
+# TODO Do this globally
 import sys
 sys.path.insert(1, '/Users/admin/gcloud/google-cloud-sdk/platform/google_appengine')
 sys.path.insert(1, '/Users/admin/gcloud/google-cloud-sdk/platform/google_appengine/lib/yaml/lib')
@@ -22,11 +23,7 @@ import iss_api
 
 from pytz import timezone
 
-## Tests for functions that work with the tasks queue
-## Verify correct behavior when these are called
-
 class TestPassTimesWorkerQueueCall(TestCase):
-    # mock slack API endpoint, verify correct call is made
 
     def setUp(self):
         self.testbed = testbed.Testbed()
@@ -40,9 +37,7 @@ class TestPassTimesWorkerQueueCall(TestCase):
 
     def utc_ts(self, dt):
         ''' return a timestamp for a datetime IN UTC '''
-        # print(dt, dt.utctimetuple())
         timestamp = calendar.timegm(dt.utctimetuple())
-        # print(timestamp)
         return timestamp
 
 
@@ -89,7 +84,7 @@ class TestPassTimesWorkerQueueCall(TestCase):
         self.assertEqual('iss_at_' + str(utc_eighty_minutes_in_future_ts), first_slack_task.name)
 
 
-        ## Check get next pass time queue
+        ## Check get next pass time queue, similar task as slack, same ETA in passtimes queue
         get_next_pass_tasks = self.taskqueue_stub.get_filtered_tasks(queue_names='passtimes')
         self.assertEqual(1, len(get_next_pass_tasks))
         self.assertEqual(self.utc_ts(utc_eighty_minutes_in_future), self.utc_ts(get_next_pass_tasks[0].eta))

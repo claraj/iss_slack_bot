@@ -49,11 +49,21 @@ Better way to start application.
 Verify post routes are not answering to any outside calls
 Redirect all routes to home page
 
-Flush queues on app re-deploy?
+Flush queues on app re-deploy? -- depends on why re-deploy
 
 
 Tests ...
-add location of libraries to path
-https://stackoverflow.com/questions/36073263/importerror-cannot-import-name-wraps-on-mac
+add location of libraries to path e.g.
 
-six issues, with mock https://stackoverflow.com/questions/36073263/importerror-cannot-import-name-wraps-on-mac
+```
+import sys
+sys.path.insert(1, '/Users/admin/gcloud/google-cloud-sdk/platform/google_appengine')
+sys.path.insert(1, '/Users/admin/gcloud/google-cloud-sdk/platform/google_appengine/lib/yaml/lib')
+```
+
+six issues, with mock - modify pythonpath to put newer version of six
+pip install --ignore-existing mock
+pip install --ignore-existing six
+above the default version on mac. Only older macs affected (?)
+
+ https://stackoverflow.com/questions/36073263/importerror-cannot-import-name-wraps-on-mac
