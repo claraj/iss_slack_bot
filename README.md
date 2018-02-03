@@ -34,7 +34,7 @@ python -m unittest discover tests
 Run one test (example)
 
 ```
-python -m unittest tests.tests_utils
+python -m unittest tests.test_utils
 ```
 
 Slack test and ISS tests require a mock API running locally. See https://github.com/minneapolis-edu/mock_iss_api
@@ -49,4 +49,11 @@ Better way to start application.
 Verify post routes are not answering to any outside calls
 Redirect all routes to home page
 
-Think about how to deal with retries. 
+Flush queues on app re-deploy?
+
+
+Tests ...
+add location of libraries to path
+https://stackoverflow.com/questions/36073263/importerror-cannot-import-name-wraps-on-mac
+
+six issues, with mock https://stackoverflow.com/questions/36073263/importerror-cannot-import-name-wraps-on-mac

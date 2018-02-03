@@ -36,7 +36,8 @@ def message_slack(msg):
         return response_text, status_code
 
     except urllib2.URLError as e:
-        logging.error('Failed to post message to slack because of ' + e.reason)
+        logging.error('Failed to post message to slack because of ' + str(e))
+        return None, None
 
 
 

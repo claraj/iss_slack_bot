@@ -9,6 +9,7 @@ app = app_factory.factory() #Flask(__name__)
 logging.info('Calling initial request for fetch and enqueue next pass')
 passtimes_worker.request_and_enqueue_next_pass()
 
+# TODO purge tasks queues on app load? 
 
 @app.route('/')
 def example():

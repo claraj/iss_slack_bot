@@ -8,7 +8,7 @@ iss_api_retry_delay_minutes = 60
 ## ISS
 
 # How far in the future a pass time has to be, to considered to be a new pass
-min_time_in_future = 60 * 10
+min_seconds_in_future = 60 * 10
 
 # Lat and lon of Minneapolis
 lat = 45

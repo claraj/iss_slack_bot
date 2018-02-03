@@ -1,8 +1,5 @@
 from unittest import TestCase
 
-from datetime import datetime, timedelta
-import time
-
 
 class TestSitePages(TestCase):
 
@@ -17,6 +14,6 @@ class TestSitePages(TestCase):
 
 
     def testSlackPostInvoked(self):
-        fail('implement me')
+        self.fail('implement me')
         ## mock the slack post method and check it was called
         # when /post_to_slack is requested

@@ -16,8 +16,8 @@ def in_future(pass_time, min_time_in_future=0):
 
     """
 
-    now = datetime.today()
-    pass_time = datetime.fromtimestamp(pass_time)
+    now = datetime.utcnow()
+    pass_time = datetime.utcfromtimestamp(pass_time)
     delta = (pass_time - now ).total_seconds()  # Number of seconds passtime is in the future. Negative is pass_time is in the past
 
     delta = delta - min_time_in_future
