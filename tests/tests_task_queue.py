@@ -9,7 +9,7 @@ import time
 ## Tests for functions that work with the tasks queue
 ## Verify correct behavior when these are called
 
-class TestISSWorkerQueueCall(TestCase):
+class TestPassTimesWorkerQueueCall(TestCase):
     # mock slack API endpoint, verify correct call is made
 
     def setUp():

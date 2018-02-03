@@ -6,10 +6,9 @@ import app_factory
 app = app_factory.factory()
 
 
-# Invoked when the ISS is above. Posts to Slack and
-# starts a new request to find the next time.
+# Invoked when the ISS is above. Posts to Slack.
 
-@app.route('/iss_is_above_right_now', methods=['POST'])
+@app.route('/post_to_slack', methods=['POST'])
 def iss_is_above_right_now():
 
     message = request.form.get('message')

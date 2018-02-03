@@ -10,7 +10,6 @@ from utils import in_future
 
 
 import app_factory
-
 app = app_factory.factory()
 
 
