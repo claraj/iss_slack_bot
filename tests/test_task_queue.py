@@ -54,14 +54,16 @@ class TestPassTimesWorkerQueueCall(TestCase):
         utc_now = datetime.now(utc)
         utc_five_minutes_in_future = utc_now + timedelta(minutes=5)
         utc_eighty_minutes_in_future = utc_now + timedelta(minutes=80)
+        utc_three_hours_in_future = utc_now + timedelta(hours=3)
 
         expected_new_task_ts = self.utc_ts(utc_eighty_minutes_in_future)
         print('expect new task ts = ', expected_new_task_ts)
 
-        # Time now, and accceptable time 80 mins in the future
-        mock_pass_times = [ { 'risetime' : self.utc_ts(utc_now) , 'duration': 3 },
-            { 'risetime' : self.utc_ts(utc_five_minutes_in_future), 'duration' : 6 },
-            { 'risetime' : self.utc_ts(utc_eighty_minutes_in_future), 'duration' : 6 }
+        # Time now, and accceptable time 80 mins in the future, and another time further in the future
+        mock_pass_times = [ { 'risetime' : self.utc_ts(utc_now) , 'duration': 29 },
+            { 'risetime' : self.utc_ts(utc_five_minutes_in_future), 'duration' : 61 },
+            { 'risetime' : self.utc_ts(utc_eighty_minutes_in_future), 'duration' : 42 },
+            { 'risetime' : self.utc_ts(utc_three_hours_in_future), 'duration' : 99 },
         ]
 
         iss_api.get_next_pass = MagicMock(return_value = mock_pass_times )
@@ -82,6 +84,7 @@ class TestPassTimesWorkerQueueCall(TestCase):
         self.assertEqual(utc_eighty_minutes_in_future_ts, iss_slack_task_eta_ts)
         self.assertEqual('/post_to_slack', first_slack_task.url )
         self.assertEqual('iss_at_' + str(utc_eighty_minutes_in_future_ts), first_slack_task.name)
+        self.assertIn('42', first_slack_task.payload)  # Duration overhead
 
 
         ## Check get next pass time queue, similar task as slack, same ETA in passtimes queue
