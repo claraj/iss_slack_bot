@@ -54,9 +54,6 @@ def request_and_enqueue_next_pass():
         utc = timezone('UTC')
         eta = datetime.fromtimestamp(next_time, utc)
 
-        print(eta.tzinfo)
-        print(eta)
-
         message = config.slack_message_text % seconds
         logging.info('Enqueuing new slack task for a pass at %f, of %s seconds, with ETA of %s' % (next_time, seconds, eta) )
 

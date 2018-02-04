@@ -1,7 +1,7 @@
 import slack_post
 import logging
 import app_factory
-
+from flask import request
 
 app = app_factory.factory()
 

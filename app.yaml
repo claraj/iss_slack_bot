@@ -18,6 +18,8 @@ handlers:
 libraries:
 - name: flask
   version: "0.12"
+- name: pytz
+  version: "2017.2"
 
 skip_files:
 - ^(.*/)?#.*#$
